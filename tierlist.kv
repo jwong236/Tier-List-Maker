@@ -1,0 +1,186 @@
+#:kivy 1.4
+#:import Button kivy.uix.button.Button
+
+<TierPreview@ToggleButton>:
+    
+    canvas.before:
+
+        Color:
+            rgba: self.color1 if self.state == "normal" else self.color2
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10, 0]
+    background_color: 0, 0, 0, 0
+    size_hint_y: None
+    height: .05 * app.root.height
+    font_size: (app.root.width**2 + app.root.height**2) / 12**4
+
+<MainWindow>:
+    canvas.before:
+        Color:
+            rgba: (1, 1, 1, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgba: (0.15, 0.15, 0.15, 1)
+        Rectangle:
+            size: self.width, self.height - 380
+            pos: self.x, 380
+    FloatLayout:
+        Label:
+            text: "Tierlist Maker"
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
+            size_hint: 0.8, 0.1
+            font_size: (root.width**2 + root.height**2) / 10**4
+        Button:
+            text: "New"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            size_hint: 0.8, 0.1
+            font_size: (root.width**2 + root.height**2) / 10**4
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "new"
+        Button:
+            text: "Load"
+            pos_hint: {"center_x": 0.5, "center_y": 0.3}
+            size_hint: 0.8, 0.1
+            font_size: (root.width**2 + root.height**2) / 10**4
+            on_release:
+                root.manager.transition.direction = "left"
+                root.manager.current = "load"
+<NewWindow>:
+    
+    parentGrid: previewGrid
+    canvas.before:
+        Color:
+            rgba: (1, 1, 1, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        
+        Color:
+            rgba: (0.15, 0.15, 0.15, 1)
+        Rectangle:
+            size: self.width, self.height - 380
+            pos: self.x, 380
+    FloatLayout:
+        Label:
+            text: "New Tierlist"
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
+            size_hint: 0.8, 0.1
+            font_size: (root.width**2 + root.height**2) / 10**4
+        Button:
+            text: "Back"
+            background_color: 0, 0, 0, 0
+            pos: (10, root.height-30)
+            size_hint: .1, .05
+            font_size: (root.width**2 + root.height**2) / 13**4
+            
+            on_release:
+                root.manager.transition.direction = "left"
+                root.manager.current = "main"
+        Label:
+            color: 0, 0, 0, 1
+
+            text: "Name: "
+            pos: (10, 350)
+            size_hint: 0.2, 0.05
+            
+            font_size: (root.width**2 + root.height**2) / 11**4
+
+            text_size: self.size
+            halign: "left"
+        TextInput:
+            pos: (80, 350)
+
+            size_hint_y: None
+            height: 27
+
+            size_hint_x: .7
+            id: name
+            multiline: False
+        Button:
+            text: "Add Tier"
+
+            pos_hint: {"x": .05, "top": .7}
+            size_hint: .4, 0.05
+            font_size: (root.width**2 + root.height**2) / 12**4
+        
+            on_release:
+                root.incrementTierCounter()
+                root.addTier()
+        
+        Button:
+            text: "Edit Tier"
+            pos_hint: {"x": .05, "top": .65}
+            size_hint: .4, 0.05
+            font_size: (root.width**2 + root.height**2) / 12**4
+        Button:
+            background_color: 0, 0, 0, 0
+            canvas.before:
+                Color:
+                    rgba: .6, .6, .6, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10, 0]
+            text: "Confirm"
+            pos_hint: {"center_x": .5, "y": .07}
+            size_hint: .7, 0.1
+            font_size: (root.width**2 + root.height**2) / 12**4
+        GridLayout:
+            id: previewGrid
+            canvas.before:
+                Color:
+                    rgba: .9, .9, .9, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [3, 0]
+            cols: 1
+            pos_hint: {"x": 0.5, "top": .7}
+            size_hint: .4, .5
+
+
+            
+
+<LoadWindow>:
+    canvas.before:
+        Color:
+            rgba: (1, 1, 1, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        
+        Color:
+            rgba: (0.15, 0.15, 0.15, 1)
+        Rectangle:
+            size: self.width, self.height - 380
+            pos: self.x, 380
+    FloatLayout:
+        Label:
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
+            size_hint: 0.8, 0.1
+            font_size: (root.width**2 + root.height**2) / 10**4
+            text: "Load Tierlist"
+        Button:
+            text: "Back"
+            background_color: 0, 0, 0, 0
+            pos: (10, root.height-30)
+            size_hint: .1, .05
+            font_size: (root.width**2 + root.height**2) / 13**4
+            
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "main"
+
+
+
+<TierList>:
+    Label:
+        font_size: 40
+        center_x: root.width / 2
+        top: root.top
+        text: "Test"
